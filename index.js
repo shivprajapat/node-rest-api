@@ -2,6 +2,8 @@ const express = require('express');
 
 const PORT = 5000;
 const app = express();
+// app.use(express());
+
 let todos = [
     { id: 1, text: "this is first todo" },
     { id: 2, text: "this is second todo" },
@@ -14,6 +16,20 @@ app.get('/', (req, res) => {
 
 app.get('/todo', (req, res) => {
     res.json(todos);
+})
+app.get('/todo/:id', (req, res) => {
+    const { id } = req.params;
+    // console.log(id);
+
+    const todo = todos.find((todo) => todo.id.toString() === id);
+
+    if (!todo) {
+        res.json({
+            message:"Invalid ID"
+        })
+        
+    }
+    res.json(todo)
 })
 
 app.listen(PORT, () => {

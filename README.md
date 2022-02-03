@@ -1,27 +1,24 @@
-const express = require('express');
-const res = require('express/lib/response');
 
-const PORT = 5000;
-const app = express();
+## API Reference with Node and Express js
 
-app.use(express.json());
+* API Requset
+* GET => show data
+* POST => add data
+* PATCH => id change
+* PUT => all data edit
+* DELETE => delete data
 
-let todos = [
-    { id: 1, text: "this is first todo" },
-    { id: 2, text: "this is second todo" },
-    { id: 3, text: "this is third todo" },
-];
+#### GET all items
 
-app.get('/', (req, res) => {
-    res.json({ message: "Hello World" });
-})
+```http
+  /todo
+```
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `api_id` | `string` | **Required**. Your API ID Address |
+| `api_text` | `string` | **Required**. Your text Address |
 
-app.get('/todo', (req, res) => {
-    res.json(todos);
-})
-
-// GET
-
+```
 app.get('/todo/:id', (req, res) => {
     const { id } = req.params;
     // console.log(id);
@@ -35,9 +32,14 @@ app.get('/todo/:id', (req, res) => {
     }
     res.json(todo)
 })
+```
 
-// POST
+#### POST item
+```http
+  POST /todo
+```
 
+```
 app.post('/todo', (req, res) => {
     const { text } = req.body;
 
@@ -47,8 +49,17 @@ app.post('/todo', (req, res) => {
     res.json(newTodo);
     // message: "todo added"
 })
+```
+#### PATCH item
+```http
+  PATCH /todo/${id}
+```
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `api_id` | `string` | **Required**. Your API ID Address |
+| `api_text` | `string` | **Required**. Your text Address |
 
-// PATCH
+```
 app.patch('/todo/:id', (req, res) => {
     const { id } = req.params;
 
@@ -65,8 +76,18 @@ app.patch('/todo/:id', (req, res) => {
     todo.text = text;
     res.json(todo)
 })
+```
+#### DELETE item
+```http
+  DELETE /todo/${id}
+```
 
-// DELETE
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `api_id` | `string` | **Required**. Your API ID Address |
+| `api_text` | `string` | **Required**. Your text Address |
+
+```
 app.delete('/todo/:id', (req, res) => {
     const { id } = req.params;
 
@@ -81,7 +102,4 @@ app.delete('/todo/:id', (req, res) => {
     todos.splice(todoIndex, 1);
     res.json({ message: "todo is deleted " })
 })
-
-app.listen(PORT, () => {
-    console.log(`server is runing on http://localhost:${PORT}`);
-})
+```

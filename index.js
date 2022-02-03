@@ -19,6 +19,9 @@ app.get('/', (req, res) => {
 app.get('/todo', (req, res) => {
     res.json(todos);
 })
+
+// GET
+
 app.get('/todo/:id', (req, res) => {
     const { id } = req.params;
     // console.log(id);
@@ -29,7 +32,6 @@ app.get('/todo/:id', (req, res) => {
         res.json({
             message: "Invalid ID"
         })
-
     }
     res.json(todo)
 })
@@ -43,14 +45,30 @@ app.post('/todo', (req, res) => {
     todos.push(newTodo);
 
     res.json(newTodo);
-
     // message: "todo added"
+})
+
+// PATCH
+app.patch('/todo/:id', (req, res) => {
+    const { id } = req.params;
+
+    const { text } = req.body;
+
+    const todo = todos.find((todo) => todo.id.toString() === id);
+
+    if (!todo) {
+        res.json({
+            message: "Invalid ID"
+        })
+    }
+
+    todo.text = text;
+    res.json(todo)
 })
 
 app.listen(PORT, () => {
     console.log(`server is runing on http://localhost:${PORT}`);
 })
-
 
 /**
 * API Requset
